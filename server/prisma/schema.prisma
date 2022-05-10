@@ -9,3 +9,15 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Feedback {
+  id         Int      @id @default(autoincrement())
+  key        String   @unique @default(uuid())
+  type       String
+  text       String
+  screenshot String?
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("feedbacks")
+}
