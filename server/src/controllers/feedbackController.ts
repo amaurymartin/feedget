@@ -15,13 +15,18 @@ class FeedbackController {
   static async create(req: Request, res: Response) {
     const { feedback }: { feedback: FeedbackParams } = req.body;
 
-    const result = (await this.service.create(feedback)) as {
-      created: boolean;
-      object: Feedback;
-    };
+    try {
+      const result = (await this.service.create(feedback)) as {
+        created: boolean;
+        object: Feedback;
+      };
 
-    if (result.created)
-      return res.status(201).json({ feedback: result.object });
+      if (result.created)
+        return res.status(201).json({ feedback: result.object });
+    } catch (error: unknown) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
 
     return res.status(422).send();
   }
