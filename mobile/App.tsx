@@ -6,6 +6,7 @@ import {
   Inter_500Medium,
 } from "@expo-google-fonts/inter";
 import { View } from "react-native";
+import "react-native-gesture-handler";
 
 import theme from "./src/theme";
 
@@ -27,6 +28,8 @@ export default function App() {
         style="auto"
         translucent
       />
+
+      <Widget />
     </View>
   );
 }
