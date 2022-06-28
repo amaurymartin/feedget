@@ -8,6 +8,8 @@ import {
 import { View } from "react-native";
 import "react-native-gesture-handler";
 
+import Widget from "./src/components/widget";
+
 import theme from "./src/theme";
 
 export default function App() {
