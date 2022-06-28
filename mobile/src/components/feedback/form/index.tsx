@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { ArrowLeft, Camera, Trash } from "phosphor-react-native";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import { captureScreen } from "react-native-view-shot";
 
 import feedbackTypes from "../../../utils/feedbackTypes";
 
@@ -39,7 +40,17 @@ export default function Form({
     setIsFeedbackSubmitted(false);
   }, []);
   const deleteShot = useCallback(() => setScreenshot(null), []);
-  const takeShot = useCallback(() => {}, []);
+  const takeShot = useCallback(() => {
+    captureScreen({
+      format: "jpg",
+      quality: 0.8,
+    })
+      .then((uri) => setScreenshot(uri))
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      });
+  }, []);
   const submitFeedback = useCallback(() => {
     setIsFeedbackSubmitting(true);
 
