@@ -4,6 +4,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
+    "format": "prettier --write .",
     "lint": "eslint --ext .ts,.tsx src/ --fix",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -27,10 +28,12 @@
     "eslint": "^8.15.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.5.0",
+    "prettier": "^2.6.2",
     "typescript": "~4.3.5"
   },
   "private": true
