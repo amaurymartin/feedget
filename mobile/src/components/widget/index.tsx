@@ -1,13 +1,20 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { ChatTeardropDots } from "phosphor-react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
+
+import TypeSelection from "../feedback/typeSelection";
 
 import theme from "../../theme";
 import styles from "./styles";
 
 export default function Widget() {
   const bottomSheetRef = useRef<BottomSheet>(null);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [feedbackType, setFeedbackType] = useState<
+    "BUG" | "IDEA" | "OTHER" | null
+  >(null);
 
   const openWidget = useCallback(() => {
     bottomSheetRef.current?.expand();
@@ -29,7 +36,7 @@ export default function Widget() {
         ref={bottomSheetRef}
         snapPoints={[1, 280]}
       >
-        {undefined}
+        <TypeSelection onTypeSelect={setFeedbackType} />
       </BottomSheet>
     </>
   );
