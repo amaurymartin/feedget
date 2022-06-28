@@ -5,6 +5,7 @@ import BottomSheet from "@gorhom/bottom-sheet";
 
 import TypeSelection from "../feedback/typeSelection";
 import Form from "../feedback/form";
+import Result from "../feedback/result";
 
 import theme from "../../theme";
 import styles from "./styles";
@@ -15,10 +16,26 @@ export default function Widget() {
   const [feedbackType, setFeedbackType] = useState<
     "BUG" | "IDEA" | "OTHER" | null
   >(null);
+  const [isFeedbackSubmitted, setIsFeedbackSubmitted] = useState(false);
 
-  const openWidget = useCallback(() => {
-    bottomSheetRef.current?.expand();
+  const openWidget = useCallback(() => bottomSheetRef.current?.expand(), []);
+  const resetFeedback = useCallback(() => {
+    setFeedbackType(null);
+    setIsFeedbackSubmitted(false);
   }, []);
+
+  function renderFeedback() {
+    if (isFeedbackSubmitted) return <Result onReturn={resetFeedback} />;
+    if (feedbackType)
+      return (
+        <Form
+          typeSelected={feedbackType}
+          setFeedbackType={setFeedbackType}
+          setIsFeedbackSubmitted={setIsFeedbackSubmitted}
+        />
+      );
+    return <TypeSelection onTypeSelect={setFeedbackType} />;
+  }
 
   return (
     <>
@@ -36,11 +53,7 @@ export default function Widget() {
         ref={bottomSheetRef}
         snapPoints={[1, 280]}
       >
-        {feedbackType ? (
-          <Form typeSelected={feedbackType} setFeedbackType={setFeedbackType} />
-        ) : (
-          <TypeSelection onTypeSelect={setFeedbackType} />
-        )}
+        {renderFeedback()}
       </BottomSheet>
     </>
   );

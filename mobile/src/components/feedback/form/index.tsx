@@ -21,9 +21,14 @@ import styles from "./styles";
 interface FormProps {
   typeSelected: "BUG" | "IDEA" | "OTHER";
   setFeedbackType: (feedbackType: null) => void;
+  setIsFeedbackSubmitted: (isFeedbackSubmitted: boolean) => void;
 }
 
-export default function Form({ typeSelected, setFeedbackType }: FormProps) {
+export default function Form({
+  typeSelected,
+  setFeedbackType,
+  setIsFeedbackSubmitted,
+}: FormProps) {
   const feedbackTypeSelected = feedbackTypes[typeSelected];
 
   const [screenshot, setScreenshot] = useState<string | null>(null);
@@ -31,6 +36,7 @@ export default function Form({ typeSelected, setFeedbackType }: FormProps) {
 
   const returnToTypeSelection = useCallback(() => {
     setFeedbackType(null);
+    setIsFeedbackSubmitted(false);
   }, []);
   const deleteShot = useCallback(() => setScreenshot(null), []);
   const takeShot = useCallback(() => {}, []);
@@ -41,6 +47,7 @@ export default function Form({ typeSelected, setFeedbackType }: FormProps) {
     // ...
     // submitted to backend
 
+    setIsFeedbackSubmitted(true);
     setIsFeedbackSubmitting(false);
   }, []);
 
