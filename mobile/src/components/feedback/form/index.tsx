@@ -11,6 +11,7 @@ import {
 import { ArrowLeft, Camera, Trash } from "phosphor-react-native";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { captureScreen } from "react-native-view-shot";
+import * as FileSystem from "expo-file-system";
 
 import feedbackTypes from "../../../utils/feedbackTypes";
 import api from "../../../services/api";
@@ -53,7 +54,9 @@ export default function Form({
   const submitFeedback = useCallback(async () => {
     setIsFeedbackSubmitting(true);
 
-    const screenshotBase64 = null;
+    const screenshotBase64 =
+      screenshot &&
+      (await FileSystem.readAsStringAsync(screenshot, { encoding: "base64" }));
 
     const payload = {
       feedback: {
