@@ -31,7 +31,8 @@ export default class FeedbackService {
         ].join("\n"),
       });
 
-      return { created: true, object: feedback };
+      if (Object.keys(feedback).length > 0)
+        return { created: true, object: feedback };
     } catch (error: unknown) {
       // eslint-disable-next-line no-console
       console.error(error);
