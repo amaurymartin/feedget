@@ -24,12 +24,7 @@ export default function App() {
         backgroundColor: theme.colors.background,
       }}
     >
-      <StatusBar
-        backgroundColor="transparent"
-        // eslint-disable-next-line react/style-prop-object
-        style="auto"
-        translucent
-      />
+      <StatusBar backgroundColor="transparent" style="auto" translucent />
 
       <Widget />
     </View>
