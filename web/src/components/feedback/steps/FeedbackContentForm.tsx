@@ -32,7 +32,6 @@ export default function FeedbackContentForm({
       },
     };
 
-    // eslint-disable-next-line no-console
     console.log("Feedback submitted", data);
 
     onFeedbackSubmit();
