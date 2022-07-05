@@ -27,6 +27,7 @@ export default class FeedbackService {
           `<div style="color: #111; font family: sans-serif; font-size: 16px;">`,
           `<p>Feedback type: ${feedback.type}</p>`,
           `<p>Text: ${feedback.text}</p>`,
+          feedback.screenshot ? `<img src="${feedback.screenshot}" />` : ``,
           "</div>",
         ].join("\n"),
       });
