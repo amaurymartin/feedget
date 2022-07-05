@@ -24,7 +24,6 @@ class FeedbackController {
       if (result.created)
         return res.status(201).json({ feedback: result.object });
     } catch (error: unknown) {
-      // eslint-disable-next-line no-console
       console.error(error);
     }
 

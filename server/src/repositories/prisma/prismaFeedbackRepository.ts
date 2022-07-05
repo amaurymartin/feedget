@@ -14,7 +14,6 @@ export default class PrismaFeedbackRepository implements FeedbackRepository {
 
       return result;
     } catch (e: unknown) {
-      // eslint-disable-next-line no-console
       console.error(e);
 
       return {} as Feedback;

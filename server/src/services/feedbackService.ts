@@ -34,7 +34,6 @@ export default class FeedbackService {
       if (Object.keys(feedback).length > 0)
         return { created: true, object: feedback };
     } catch (error: unknown) {
-      // eslint-disable-next-line no-console
       console.error(error);
     }
 
