@@ -13,6 +13,7 @@ import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { captureScreen } from "react-native-view-shot";
 
 import feedbackTypes from "../../../utils/feedbackTypes";
+import api from "../../../services/api";
 
 import Copyright from "../../copyright";
 
@@ -32,6 +33,7 @@ export default function Form({
 }: FormProps) {
   const feedbackTypeSelected = feedbackTypes[typeSelected];
 
+  const [feedbackText, setFeedbackText] = useState<string | null>(null);
   const [screenshot, setScreenshot] = useState<string | null>(null);
   const [isFeedbackSubmitting, setIsFeedbackSubmitting] = useState(false);
 
@@ -46,21 +48,32 @@ export default function Form({
       quality: 0.8,
     })
       .then((uri) => setScreenshot(uri))
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      });
+      .catch((error) => console.error(error));
   }, []);
-  const submitFeedback = useCallback(() => {
+  const submitFeedback = useCallback(async () => {
     setIsFeedbackSubmitting(true);
 
-    // submitting to backend
-    // ...
-    // submitted to backend
+    const screenshotBase64 = null;
 
-    setIsFeedbackSubmitted(true);
-    setIsFeedbackSubmitting(false);
-  }, []);
+    const payload = {
+      feedback: {
+        type: feedbackTypeSelected.title,
+        text: feedbackText,
+        screenshot: screenshotBase64
+          ? `data:image/png;base64,${screenshotBase64}`
+          : null,
+      },
+    };
+
+    await api
+      .post("/feedbacks", payload)
+      .then(() => setIsFeedbackSubmitted(true))
+      .catch((error: any) => {
+        console.error(error);
+        setIsFeedbackSubmitting(false);
+        alert("Error when trying to submit feedback. Please, try again later.");
+      });
+  }, [feedbackText, screenshot]);
 
   return (
     <KeyboardAvoidingView
@@ -88,6 +101,7 @@ export default function Form({
 
       <BottomSheetTextInput
         multiline
+        onChangeText={(text) => setFeedbackText(text)}
         placeholder="Give your feedback"
         placeholderTextColor={theme.colors.text_secondary}
         style={styles.input}
