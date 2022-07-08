@@ -3,6 +3,7 @@ import { FormEvent, useState } from "react";
 import feedbackTypes from "../../../types/feedback/feedbackTypes";
 import Header from "../Header";
 import ScreenshotButton from "../../buttons/ScreenshotButton";
+import Loading from "../../Loading";
 
 import api from "../../../services/api";
 
@@ -75,7 +76,7 @@ export default function FeedbackContentForm({
             disabled={feedbackText === "" || isSubmittingFeedback}
             type="submit"
           >
-            Send
+            {isSubmittingFeedback ? <Loading /> : "Send"}
           </button>
         </footer>
       </form>
