@@ -4,6 +4,8 @@ import feedbackTypes from "../../../types/feedback/feedbackTypes";
 import Header from "../Header";
 import ScreenshotButton from "../../buttons/ScreenshotButton";
 
+import api from "../../../services/api";
+
 interface FeedbackContentFormProps {
   title: string;
   resetFeedback: () => void;
@@ -36,10 +38,14 @@ export default function FeedbackContentForm({
       },
     };
 
-    console.log("Feedback submitted", payload);
-
-    setIsSubmittingFeedback(false);
-    onFeedbackSubmit();
+    await api
+      .post("/feedbacks", payload)
+      .then(() => onFeedbackSubmit())
+      .catch((error) => {
+        console.error(error);
+        alert("Error when trying to submit feedback. Please, try again later.");
+      })
+      .finally(() => setIsSubmittingFeedback(false));
   }
 
   return (
