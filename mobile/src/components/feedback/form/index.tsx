@@ -135,6 +135,7 @@ export default function Form({
         </TouchableOpacity>
 
         <TouchableOpacity
+          disabled={isFeedbackSubmitting}
           onPress={submitFeedback}
           style={styles.submitButtonContainer}
         >
