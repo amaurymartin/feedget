@@ -3,10 +3,10 @@ import successImageUrl from "../../../assets/success.svg";
 import CloseButton from "../../buttons/CloseButton";
 
 interface FeedbackResultProps {
-  onReturn: () => void;
+  resetFeedback: () => void;
 }
 
-export default function FeedbackResult({ onReturn }: FeedbackResultProps) {
+export default function FeedbackResult({ resetFeedback }: FeedbackResultProps) {
   return (
     <>
       <header>
@@ -20,7 +20,7 @@ export default function FeedbackResult({ onReturn }: FeedbackResultProps) {
 
         <button
           className="bg-zinc-800 border-transparent focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-zinc-900 hover:bg-zinc-700 leading-6 mt-6 px-6 py-2 rounded-md text-sm transition-colors"
-          onClick={onReturn}
+          onClick={resetFeedback}
           type="button"
         >
           New feedback

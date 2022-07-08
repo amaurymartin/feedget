@@ -6,34 +6,39 @@ import ScreenshotButton from "../../buttons/ScreenshotButton";
 
 interface FeedbackContentFormProps {
   title: string;
-  onReturn: () => void;
+  resetFeedback: () => void;
   onFeedbackSubmit: () => void;
 }
 
 export default function FeedbackContentForm({
   title,
-  onReturn,
+  resetFeedback,
   onFeedbackSubmit,
 }: FeedbackContentFormProps) {
-  const [feedbackText, setFeedbackText] = useState<string>("");
+  const [feedbackText, setFeedbackText] = useState<string | null>(null);
   const [screenshotBase64, setScreenshotBase64] = useState<string | null>(null);
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
 
   const selectedFeedbackType = feedbackTypes.find(
     (feedbackType) => feedbackType.title === title
   );
 
-  function submitFeedback(e: FormEvent) {
+  async function submitFeedback(e: FormEvent) {
     e.preventDefault();
 
-    const data = {
+    setIsSubmittingFeedback(true);
+
+    const payload = {
       feedback: {
+        type: selectedFeedbackType?.title,
         text: feedbackText,
-        image: screenshotBase64,
+        screenshot: screenshotBase64,
       },
     };
 
-    console.log("Feedback submitted", data);
+    console.log("Feedback submitted", payload);
 
+    setIsSubmittingFeedback(false);
     onFeedbackSubmit();
   }
 
@@ -43,7 +48,7 @@ export default function FeedbackContentForm({
         imgAlt={selectedFeedbackType?.image.alt}
         imgSrc={selectedFeedbackType?.image.src}
         title={title}
-        onReturn={onReturn}
+        onReturn={resetFeedback}
       />
 
       <form className="my-4 w-full" onSubmit={(event) => submitFeedback(event)}>
@@ -56,12 +61,12 @@ export default function FeedbackContentForm({
         <footer className="flex gap-2 mt-2">
           <ScreenshotButton
             screenshot={screenshotBase64}
-            onPrintScreen={setScreenshotBase64}
+            setScreenshotBase64={setScreenshotBase64}
           />
 
           <button
             className="bg-brand-500 border-transparent disabled:hover:bg-brand-500 disabled:opacity-50 flex flex-1 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-zinc-900 hover:bg-brand-300 items-center justify-center p-2 rounded-md text-sm transition-colors"
-            disabled={feedbackText === ""}
+            disabled={feedbackText === "" || isSubmittingFeedback}
             type="submit"
           >
             Send

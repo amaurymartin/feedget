@@ -6,30 +6,30 @@ import Loading from "../Loading";
 
 interface ScreenshotButtonProps {
   screenshot: string | null;
-  onPrintScreen: (type: string | null) => void;
+  setScreenshotBase64: (type: string | null) => void;
 }
 
 export default function ScreenshotButton({
   screenshot,
-  onPrintScreen,
+  setScreenshotBase64,
 }: ScreenshotButtonProps) {
-  const [isLoadingScreenshot, setIsLoadingScreenshot] = useState(false);
+  const [isScreenshotLoading, setIsScreenshotLoading] = useState(false);
 
   async function printScreen() {
-    setIsLoadingScreenshot(true);
-    onPrintScreen(
+    setIsScreenshotLoading(true);
+    setScreenshotBase64(
       (await html2canvas(document.querySelector("html")!)).toDataURL(
         "image/png"
       )
     );
-    setIsLoadingScreenshot(false);
+    setIsScreenshotLoading(false);
   }
 
   if (screenshot) {
     return (
       <button
         className="border-transparent flex h-10 hover:text-zinc-100 items-end justify-end p-1 rounded-md text-zinc-400 transition-colors w-10"
-        onClick={() => onPrintScreen(null)}
+        onClick={() => setScreenshotBase64(null)}
         style={{
           backgroundImage: `url(${screenshot})`,
           backgroundPosition: "right bottom",
@@ -48,7 +48,7 @@ export default function ScreenshotButton({
       onClick={printScreen}
       type="button"
     >
-      {!isLoadingScreenshot ? <Camera className="h-6 w-6" /> : <Loading />}
+      {!isScreenshotLoading ? <Camera className="h-6 w-6" /> : <Loading />}
     </button>
   );
 }
